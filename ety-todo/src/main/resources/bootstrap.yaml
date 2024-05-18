@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: ety-todo
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+      config:
+        file-extension: yaml
+        shared-configs:
+          - dataId: shared-mysql.yaml
+          - dataId: shared-mybatis.yaml
+          - dataId: shared-feign.yaml
+server:
+  port: 8083
+ety:
+  db:
+    name: ety_todo
+  auth:
+    enable: true
+    include-paths:
+      - /**

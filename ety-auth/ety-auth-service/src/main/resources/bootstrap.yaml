@@ -1,0 +1,23 @@
+spring:
+  profiles:
+    active: dev
+    include: jwt
+  application:
+    name: ety-auth
+  cloud:
+    nacos:
+      config:
+        file-extension: yaml
+        shared-configs:
+          - data-id: shared-mysql.yaml
+          - data-id: shared-mybatis.yaml
+          - data-id: shared-feign.yaml
+server:
+  port: 8081
+ety:
+  db:
+    name: ety_auth
+  auth:
+    jwt:
+      secret: amF2YXguY3J5cHRvLnNwZWMuU2VjcmV0S2V5U3BlY0A1ODg2MWMz
+      ttl: 360000

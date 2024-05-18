@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: ety-user
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+      config:
+        file-extension: yaml
+        shared-configs:
+          - dataId: shared-mysql.yaml
+          - dataId: shared-mybatis.yaml
+          - dataId: shared-feign.yaml
+server:
+  port: 8082
+ety:
+  db:
+    name: ety_user
+  auth:
+    enable: true
+    exclude-paths:
+      - /user/register
+      - /user/all
+    include-paths:
+      - /user/**

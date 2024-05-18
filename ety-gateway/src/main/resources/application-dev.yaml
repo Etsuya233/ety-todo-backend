@@ -1,0 +1,15 @@
+logging:
+  level:
+    com.ety: debug
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origin-patterns:
+              - "*"
+            allowed-methods: "*"
+            allow-credentials: true
+            allowed-headers: "*"
+        add-to-simple-url-handler-mapping: true

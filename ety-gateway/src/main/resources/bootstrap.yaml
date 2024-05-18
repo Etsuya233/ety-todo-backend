@@ -1,0 +1,30 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: ety-gateway
+  profiles:
+    active: dev
+    include: jwt
+  cloud:
+    nacos:
+      config:
+        shared-configs:
+          - dataId: shared-feign.yaml
+        file-extension: yaml
+    gateway:
+      routes:
+        - id: user
+          uri: lb://ety-user
+          predicates:
+            - Path=/user/**
+        - id: todo
+          uri: lb://ety-todo
+          predicates:
+            - Path=/todo/**
+        - id: auth
+          uri: lb://ety-auth
+          predicates:
+            - Path=/auth/**
+      default-filters:
+        - StripPrefix=1

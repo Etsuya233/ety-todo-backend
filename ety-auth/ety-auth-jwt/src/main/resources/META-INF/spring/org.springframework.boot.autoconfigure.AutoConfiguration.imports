@@ -1,0 +1,2 @@
+com.ety.auth.config.JwtAutoconfiguration
+com.ety.auth.utils.JwtUtils
