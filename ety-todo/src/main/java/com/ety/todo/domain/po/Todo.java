@@ -39,9 +39,9 @@ public class Todo implements Serializable {
     private Integer type;
 
     /**
-     * 0表示未完成，1表示进行中，2表示已完成
+     * 0表示未完成，1已完成
      */
-    private Integer status;
+    private Boolean status;
 
 
 }

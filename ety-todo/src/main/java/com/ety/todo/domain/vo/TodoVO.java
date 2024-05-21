@@ -18,5 +18,5 @@ public class TodoVO {
 
 	private Integer type;
 
-	private Integer status;
+	private Boolean status;
 }

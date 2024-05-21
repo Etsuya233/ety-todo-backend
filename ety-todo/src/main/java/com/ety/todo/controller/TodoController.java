@@ -4,12 +4,15 @@ package com.ety.todo.controller;
 import com.ety.common.domain.PageDTO;
 import com.ety.common.domain.PageRes;
 import com.ety.common.domain.R;
+import com.ety.todo.domain.dto.TodoUpdateDTO;
 import com.ety.todo.domain.po.Todo;
 import com.ety.todo.domain.query.TodoPageQuery;
 import com.ety.todo.domain.vo.TodoVO;
 import com.ety.todo.service.ITodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -47,6 +50,12 @@ public class TodoController {
 	public R<PageRes<TodoVO>> pageTodo(TodoPageQuery todoPageQuery){
 		PageRes<TodoVO> ret = todoService.pageTodo(todoPageQuery);
 		return R.success(ret);
+	}
+
+	@PostMapping("/status")
+	public R<Void> completeTodoBatch(@RequestBody List<TodoUpdateDTO> dto){
+		todoService.completeTodoBatch(dto);
+		return R.success();
 	}
 
 }

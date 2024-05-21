@@ -1,11 +1,13 @@
 package com.ety.todo.service;
 
-import com.ety.common.domain.PageDTO;
 import com.ety.common.domain.PageRes;
+import com.ety.todo.domain.dto.TodoUpdateDTO;
 import com.ety.todo.domain.po.Todo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ety.todo.domain.query.TodoPageQuery;
 import com.ety.todo.domain.vo.TodoVO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -24,4 +26,6 @@ public interface ITodoService extends IService<Todo> {
 	void deleteTodo(Long id);
 
 	PageRes<TodoVO> pageTodo(TodoPageQuery todoPageQuery);
+
+	void completeTodoBatch(List<TodoUpdateDTO> ids);
 }

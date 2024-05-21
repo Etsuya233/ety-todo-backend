@@ -38,7 +38,6 @@ public class GatewayUserAuthInterceptor implements GlobalFilter, Ordered {
 		try{
 			Long userId = jwtUtils.parseToken(token);
 			request.mutate().header(HttpConstant.USER_ID_HEADER, userId.toString());
-//			request.getHeaders().add(HttpConstant.USER_ID_HEADER, userId.toString());
 		} catch (ExpiredJwtException e){
 			//do nothing
 		} catch (Exception e){

@@ -1,3 +1,4 @@
 com.ety.common.config.spring.SpringConfig
 #com.ety.common.config.spring.SpringMvcConfig
 com.ety.common.config.mp.MpConfiguration
+com.ety.common.config.json.JacksonConfig

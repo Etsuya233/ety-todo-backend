@@ -3,13 +3,12 @@ package com.ety.todo.controller;
 
 import com.ety.common.domain.R;
 import com.ety.todo.domain.po.TodoGroup;
+import com.ety.todo.domain.vo.TodoGroupVO;
 import com.ety.todo.service.ITodoGroupService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
 
 /**
  * <p>
@@ -30,5 +29,12 @@ public class TodoGroupController {
 		todoGroupService.addTodoGroup(group);
 		return R.success();
 	}
+
+	@GetMapping
+	public R<List<TodoGroupVO>> getAllGroup(){
+		List<TodoGroupVO> ret = todoGroupService.getAllGroup();
+		return R.success(ret);
+	}
+
 
 }

@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 @Data
 public class TodoPageQuery extends PageDTO {
 	/**
-	 * 假如groupId为null,则是查询全部
+	 * 假如groupId为0,则是查询全部
 	 */
 	private String groupId;
 	/**

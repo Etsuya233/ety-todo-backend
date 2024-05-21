@@ -1,11 +1,12 @@
 package com.ety.todo.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.ety.common.domain.PageRes;
 import com.ety.common.domain.UserContext;
 import com.ety.common.exceptions.BadRequestException;
+import com.ety.todo.domain.dto.TodoUpdateDTO;
 import com.ety.todo.domain.po.Todo;
 import com.ety.todo.domain.po.TodoGroup;
 import com.ety.todo.domain.query.TodoPageQuery;
@@ -15,6 +16,7 @@ import com.ety.todo.service.ITodoGroupService;
 import com.ety.todo.service.ITodoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.actuate.web.mappings.MappingsEndpoint;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,6 +38,7 @@ import java.util.stream.Collectors;
 public class TodoServiceImpl extends ServiceImpl<TodoMapper, Todo> implements ITodoService {
 
 	private final ITodoGroupService todoGroupService;
+	private final MappingsEndpoint mappingsEndpoint;
 
 	@Override
 	public void addTodo(Todo todo) {
@@ -65,7 +68,7 @@ public class TodoServiceImpl extends ServiceImpl<TodoMapper, Todo> implements IT
 		//分页查询
 		Page<Todo> pageResult = this.lambdaQuery()
 				.eq(Todo::getUserId, userId)
-				.eq(todoPageQuery.getGroupId() != null, Todo::getGroupId, todoPageQuery.getGroupId())
+				.eq(todoPageQuery.getGroupId() != null && Long.parseLong(todoPageQuery.getGroupId()) != 0, Todo::getGroupId, todoPageQuery.getGroupId())
 				.eq(todoPageQuery.getType() != null, Todo::getType, todoPageQuery.getType())
 				.page(todoPageQuery.toMpPage());
 		List<Todo> records = pageResult.getRecords();
@@ -85,5 +88,31 @@ public class TodoServiceImpl extends ServiceImpl<TodoMapper, Todo> implements IT
 			return vo;
 		}).toList();
 		return PageRes.of(pageResult, ret);
+	}
+
+	@Override
+	public void completeTodoBatch(List<TodoUpdateDTO> dto) {
+		if(CollUtil.isEmpty(dto)) return;
+		Long userId = UserContext.getUserId();
+		//分离完成和未完成的ID
+		List<Long> incompleteIds = dto.stream()
+				.filter(d -> !d.getStatus())
+				.map(TodoUpdateDTO::getId)
+				.toList();
+		List<Long> completedIds = dto.stream()
+				.filter(TodoUpdateDTO::getStatus)
+				.map(TodoUpdateDTO::getId)
+				.toList();
+		//更新数据库
+		if(CollUtil.isNotEmpty(completedIds)) this.lambdaUpdate()
+				.eq(Todo::getUserId, userId)
+				.in(Todo::getId, completedIds)
+				.set(Todo::getStatus, true)
+				.update();
+		if(CollUtil.isNotEmpty(incompleteIds)) this.lambdaUpdate()
+				.eq(Todo::getUserId, userId)
+				.in(Todo::getId, incompleteIds)
+				.set(Todo::getStatus, false)
+				.update();
 	}
 }
