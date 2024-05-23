@@ -11,4 +11,6 @@ public class UserDTO {
 	private String password;
 
 	private Boolean vip;
+
+	private String avatar;
 }

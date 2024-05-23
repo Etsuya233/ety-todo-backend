@@ -33,6 +33,9 @@ public class GatewayUserAuthInterceptor implements GlobalFilter, Ordered {
 		ServerHttpRequest request = exchange.getRequest();
 		List<String> authorizations = request.getHeaders().get("Authorization");
 		if(authorizations == null || authorizations.isEmpty()) return chain.filter(exchange);
+		if(!authorizations.get(0).startsWith("Bearer ")){
+			return chain.filter(exchange);
+		}
 		String token = authorizations.get(0).substring(7); //Bearer ...
 		//验证JWT
 		try{

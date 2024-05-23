@@ -17,4 +17,6 @@ public interface IUserService extends IService<User> {
 	void register(User user);
 
 	UserDTO getUserAllInfoByName(String name);
+
+	User getUserById(Long id);
 }

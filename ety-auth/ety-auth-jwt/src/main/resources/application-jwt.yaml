@@ -1,5 +1,0 @@
-ety:
-  auth:
-    jwt:
-      secret: uiUJ68yaiq1pkejAZ5q9joxLw9b392Ne9NLD3IJucrYrQk69OYBmt8RiUmDpIIu
-      ttl: 360000

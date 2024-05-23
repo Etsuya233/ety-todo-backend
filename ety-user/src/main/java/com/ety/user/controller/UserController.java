@@ -3,6 +3,7 @@ package com.ety.user.controller;
 
 import com.ety.api.dto.UserDTO;
 import com.ety.common.domain.R;
+import com.ety.common.domain.UserContext;
 import com.ety.user.domain.po.User;
 import com.ety.user.service.IUserService;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,19 @@ public class UserController {
 	@GetMapping("/all")
 	public UserDTO getUserAllInfoByName(@RequestParam("name") String name){
 		return userService.getUserAllInfoByName(name);
+	}
+
+	@GetMapping
+	public R<User> getUserById(@RequestParam("id") Long id){
+		User user = userService.getUserById(id);
+		return R.success(user);
+	}
+
+	@GetMapping("/current")
+	public R<User> getCurrentUser(){
+		Long userId = UserContext.getUserId();
+		User user = userService.getUserById(userId);
+		return R.success(user);
 	}
 
 }
